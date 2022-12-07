@@ -1,0 +1,10 @@
+spring.application.name=inmueble-microservice
+server.port=3333
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL9Dialect
+spring.jpa.hibernate.ddl=update
+spring.jpa.show-sql=true
+eureka.client.enabled=false
