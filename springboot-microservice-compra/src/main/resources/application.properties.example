@@ -7,5 +7,5 @@ spring.datasource.driver-class-name=org.h2.Driver
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 spring.jpa.show-sql=true
 eureka.client.enabled=false
-service.security.secure-key-username=cgmdevUsername
-service.security.secure-key-password=cgmdevUsername!
+service.security.secure-key-username=
+service.security.secure-key-password=
