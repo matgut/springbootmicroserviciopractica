@@ -1,5 +1,6 @@
 package com.cgmdev.springbootmicroserviceapigateway.security;
 
+import com.cgmdev.springbootmicroserviceapigateway.security.jwt.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -35,15 +37,24 @@ public class SecurityConfig {
 
         AuthenticationManager authenticationManager = auth.build();
 
-        http.csrf().disable()
+        return   http.antMatcher("/api/authentication/**")
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .csrf().disable()
                 .cors().disable()
-                .authorizeRequests().antMatchers("/api/authentication/signin","/api/authentication/signup").permitAll()//seran url publicas
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationManager(authenticationManager)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .build();
 
-        return http.build();
+    }
 
+    @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter(){
+        return new JwtAuthorizationFilter();
     }
 
 }
