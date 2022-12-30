@@ -17,7 +17,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private JwtProvider jwtProvider;//hacemos un bean en SecurityConfig para que init
 
 
-    //capturamos los request que llegan dlel cliente y evaluamos con nuesteras reglas
+    //capturamos los request que llegan del cliente y evaluamos con nuestras reglas
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Authentication authentication  = jwtProvider.getAuthentication(request);

@@ -32,5 +32,8 @@ public class User {
     @Column(name = "role", nullable = false)
     private Role role;
 
+    @Transient//sera un campo temporal y no se almacenara en la DB
+    private String token;
+
 
 }
