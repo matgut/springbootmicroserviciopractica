@@ -1,9 +1,11 @@
 package com.cgmdev.springbootmicroserviceapigateway.security;
 
+import com.cgmdev.springbootmicroserviceapigateway.enumeration.Role;
 import com.cgmdev.springbootmicroserviceapigateway.security.jwt.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -37,18 +39,19 @@ public class SecurityConfig {
 
         AuthenticationManager authenticationManager = auth.build();
 
-        return   http.antMatcher("/api/authentication/**")
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .csrf().disable()
-                .cors().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authenticationManager(authenticationManager)
-                .addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .build();
+        http.cors();
+        http.csrf().disable();
+        http.authenticationManager(authenticationManager);
+
+        http.authorizeHttpRequests()
+                .antMatchers("api/v1/authentication/signup", "api/v1/authentication/signup").permitAll()
+                .antMatchers(HttpMethod.GET, "/gateway/inmueble").permitAll()//metodo get a esta ruta queda publico
+                .antMatchers("/gateway/inmueble/**").hasRole(Role.ADMIN.name()) //demas rutas deben tener rol ADMIN
+                .anyRequest().authenticated();
+
+        http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
 
     }
 

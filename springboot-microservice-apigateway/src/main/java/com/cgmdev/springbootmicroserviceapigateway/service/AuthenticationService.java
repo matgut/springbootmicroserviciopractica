@@ -1,7 +1,9 @@
 package com.cgmdev.springbootmicroserviceapigateway.service;
 
 import com.cgmdev.springbootmicroserviceapigateway.entity.User;
+import org.springframework.stereotype.Service;
 
-public interface AutenticationService {
+@Service
+public interface AuthenticationService {
     User signInAndReturnJwt(User signInRequest);
 }

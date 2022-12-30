@@ -1,5 +1,6 @@
 package com.cgmdev.springbootmicroserviceapigateway.security.jwt;
 
+import com.cgmdev.springbootmicroserviceapigateway.entity.User;
 import com.cgmdev.springbootmicroserviceapigateway.security.UserPrincipal;
 import com.cgmdev.springbootmicroserviceapigateway.utils.SecurityUtils;
 import io.jsonwebtoken.Claims;
@@ -41,6 +42,21 @@ public class JwtProviderImp implements JwtProvider{
                 .setSubject(auth.getUsername())
                 .claim("roles", authorities)//propiedad dentro de un token
                 .claim("userId", auth.getId())
+                .setExpiration(new Date(System.currentTimeMillis()+ JWT_SECRET_IN_MS))
+                .signWith(key, SignatureAlgorithm.HS512)//algoritmo para descriptar
+                .compact();
+
+    }
+
+    @Override
+    //polimorfismo podemos sobrecargar metodos con diferentes parametros
+    public String generateToken(User user){
+        Key key = Keys.hmacShaKeyFor((JWT_SECRET.getBytes(StandardCharsets.UTF_8)));
+
+        return Jwts.builder()
+                .setSubject(user.getUsername())
+                .claim("roles", user.getRole())//propiedad dentro de un token
+                .claim("userId", user.getId())
                 .setExpiration(new Date(System.currentTimeMillis()+ JWT_SECRET_IN_MS))
                 .signWith(key, SignatureAlgorithm.HS512)//algoritmo para descriptar
                 .compact();

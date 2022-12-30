@@ -3,6 +3,7 @@ package com.cgmdev.springbootmicroserviceapigateway.service;
 import com.cgmdev.springbootmicroserviceapigateway.entity.User;
 import com.cgmdev.springbootmicroserviceapigateway.enumeration.Role;
 import com.cgmdev.springbootmicroserviceapigateway.repository.UserRepository;
+import com.cgmdev.springbootmicroserviceapigateway.security.jwt.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class UserServiceImp implements UserService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtProvider jwtProvider;
+
     @Override
     public User saveUser(User user){
 
@@ -27,7 +31,11 @@ public class UserServiceImp implements UserService{
         user.setRole(Role.USER);
         user.setFechaCreacion(LocalDateTime.now());
 
-        return userRepository.save(user);
+        User userCreated = userRepository.save(user);
+        String jwt = jwtProvider.generateToken(userCreated);
+        userCreated.setToken(jwt);
+
+        return userCreated;
     }
 
 
