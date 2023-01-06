@@ -44,7 +44,7 @@ public class SecurityConfig {
         http.authenticationManager(authenticationManager);
 
         http.authorizeHttpRequests()
-                .antMatchers("api/v1/authentication/signup", "api/v1/authentication/signup").permitAll()
+                .antMatchers("/api/v1/authentication/signup", "/api/v1/authentication/signin").permitAll()
                 .antMatchers(HttpMethod.GET, "/gateway/inmueble").permitAll()//metodo get a esta ruta queda publico
                 .antMatchers("/gateway/inmueble/**").hasRole(Role.ADMIN.name()) //demas rutas deben tener rol ADMIN
                 .anyRequest().authenticated();
