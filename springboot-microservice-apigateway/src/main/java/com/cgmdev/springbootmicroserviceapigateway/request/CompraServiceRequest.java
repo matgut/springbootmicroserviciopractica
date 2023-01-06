@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 //mapeo para comunicar el microservicio
-@FeignClient(value = "compra-microservice", path = "/api/v1/compra", url = "${compra.service.url}", configuration = FeignConfiguration.class)
+@FeignClient(
+        value = "compra-microservice",
+        path = "/api/v1/compra",
+        //url = "${compra.service.url}",
+        configuration = FeignConfiguration.class
+)
 public interface CompraServiceRequest {
 
     @PostMapping

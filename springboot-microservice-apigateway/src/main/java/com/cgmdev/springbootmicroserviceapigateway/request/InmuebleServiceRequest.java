@@ -6,7 +6,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //mapeo para comunicar el microservicio
-@FeignClient(value = "inmueble-microservice", path = "/api/v1/inmueble", url = "${inmueble.service.url}", configuration = FeignConfiguration.class)
+@FeignClient(
+        value = "inmueble-microservice",
+        path = "/api/v1/inmueble",
+        //url = "${inmueble.service.url}",
+        configuration = FeignConfiguration.class
+)
 public interface InmuebleServiceRequest {
 
     @PostMapping
