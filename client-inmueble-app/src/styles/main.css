@@ -1,0 +1,37 @@
+:root{
+  --primary-color:  #ffab00;
+  --secondary-color: #ff8f00;
+  --primary-ligth-color:  #ffdd4b;
+  --secondary-ligth-color: #ffc046;
+  --text-color: black;
+  --bg-color-2: #fffaf5;
+  --bg-color-3: #757575;
+  --error: #d50000;
+  --success: #64dd17;
+  --base-font-family: "Roboto", sans-serif;
+  --base-font-size: 16px;
+  --base-line-height: 1.2;
+
+}
+
+html, body{
+  height: 100%;
+  margin: 0;
+  font-family: var(--base-font-family);
+  font-size: var(--base-font-size);
+  line-height: var(--base-line-height);
+  background-color: var(--bg-color-2);
+}
+
+.green-snackbar {
+  background: var(--success);
+  color: white;
+}
+
+.red-snackbar {
+  background: var(--error);
+  color: white;
+}
+
+
+
